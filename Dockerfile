@@ -1,6 +1,6 @@
 FROM nvidia/cuda:7.5-cudnn4-runtime
 
-MAINTAINER Yasuaki Uechi (https://randompaper.co)
+MAINTAINER Jiaming Liu 
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
@@ -29,26 +29,25 @@ RUN apt-get update && apt-get install -y \
 # Install anaconda3
 
 RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-    curl -Ls https://repo.continuum.io/archive/Anaconda3-4.0.0-Linux-x86_64.sh -o /tmp/Anaconda3-4.0.0-Linux-x86_64.sh && \
-    /bin/bash /tmp/Anaconda3-4.0.0-Linux-x86_64.sh -b -p /opt/conda && \
+    #curl -Ls https://repo.continuum.io/archive/Anaconda3-4.0.0-Linux-x86_64.sh -o /tmp/Anaconda3-4.0.0-Linux-x86_64.sh && \
+    #/bin/bash /tmp/Anaconda3-4.0.0-Linux-x86_64.sh -b -p /opt/conda && \
+    curl -Ls https://repo.continuum.io/archive/Anaconda2-7.0.0-Linux-x86_64.sh -o /tmp/Anaconda2-7.0.0-Linux-x86_64.sh && \
+    /bin/bash /tmp/Anaconda2-7.0.0-Linux-x86_64.sh -b -p /opt/conda && \
     conda update --all -y
 
 # Install additional python components
 RUN pip install -U gensim
 
 # Clone repositories
-RUN git clone https://github.com/tensorflow/tensorflow.git /usr/src/tensorflow && \
-  git clone git://github.com/Theano/Theano.git /usr/src/theano && \
+RUN git clone git://github.com/Theano/Theano.git /usr/src/theano && \
   git clone https://github.com/torch/distro.git /usr/src/torch --recursive && \
   git clone https://github.com/scikit-learn/scikit-learn.git /usr/src/scikit-learn && \
   git clone https://github.com/pfnet/chainer.git /usr/src/chainer && \
   git clone https://github.com/fchollet/keras.git /usr/src/keras && \
   git clone https://github.com/Lasagne/Lasagne.git /usr/src/Lasagne && \
 
-# TensorFlow
-RUN curl -Ls https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.8.0-cp34-cp34m-linux_x86_64.whl -o /tmp/tensorflow-0.8.0-py3-none-linux_x86_64.whl && \
-  pip install /tmp/tensorflow-0.8.0-py3-none-linux_x86_64.whl && \
-  cd /usr/src/theano && python setup.py install && \
+# Theano
+RUN cd /usr/src/theano && python setup.py install && \
   cd /usr/src/torch; ./install.sh && \
   pip install scikit-learn scikit-image chainer keras Lasagne
 

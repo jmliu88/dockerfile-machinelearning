@@ -18,7 +18,7 @@ Dockerfile for studying/analyzing with Machine Learning.
 
 ### Machine Learning
 
-- TensorFlow
+- TensorFlow (removed)
 - Theano
 - Keras
 - Lasagne
